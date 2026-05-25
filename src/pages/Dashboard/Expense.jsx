@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import { useUserAuth } from '../../hooks/useUserAuth'
-import { API_PATH } from '../../utils/apiPath'
+import { API_PATH } from '../../utils/apiPaths'
 import toast from 'react-hot-toast'
 import axiosInstance from '../../utils/axiosInstance'
 import ExpenseOverview from '../../components/Expense/ExpenseOverview'
