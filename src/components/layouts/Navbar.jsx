@@ -14,7 +14,7 @@ const Navbar = ({ activeMenu }) => {
 
             <span className='flex lg:ml-12'>
                 <h2 className='text-2xl font-semibold text-black'>Spend</h2>
-                <h2 className='text-2xl font-semibold text-purple-700'>Wise</h2>
+                <h2 className='text-2xl font-semibold text-purple-700'>ulum</h2>
             </span>
 
             {openSideMenu && (
