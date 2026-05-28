@@ -68,6 +68,43 @@ export const prepareExpenseLineChartData = (data = []) => {
     }))
 
     return chartData;
+}
+export const analyzeBudgets = (expenses, budgets) => {
+    const now = new Date()
+    const currentMonth = now.getMonth() + 1
+    const currentYear = now.getFullYear()
+
+    // Filter current month expenses
+    const monthlyExpenses = expenses.filter((e) => {
+        const d = new Date(e.date)
+        return d.getMonth() + 1 === currentMonth && d.getFullYear() === currentYear
+    })
+
+    // Group and sum by category
+    const categoryTotals = monthlyExpenses.reduce((acc, e) => {
+        acc[e.category] = (acc[e.category] || 0) + Number(e.amount)
+        return acc
+    }, {})
+
+    // Pie chart data
+    const pieData = Object.entries(categoryTotals).map(([name, value]) => ({
+        name,
+        value,
+    }))
+
+    // Budget alerts
+    const alerts = []
+    budgets.forEach((budget) => {
+        const spent = categoryTotals[budget.category] || 0
+        const percentage = (spent / budget.amount) * 100
+        if (percentage >= 80) {
+            alerts.push(
+                `Warning: You have used ${Math.round(percentage)}% of your ${budget.category} budget! (₹${spent} of ₹${budget.amount})`
+            )
+        }
+    })
+
+    return { pieData, alerts }
 }// export const validateEmail = (email) => {
 //   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 //   return regex.test(email);
