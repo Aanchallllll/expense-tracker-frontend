@@ -42,6 +42,8 @@ const [alerts, setAlerts] = useState([])
       const res = await axiosInstance.get(API_PATH.BUDGET.GET_BUDGETS, {
         params: { month: now.getMonth() + 1, year: now.getFullYear() }
       })
+            console.log("BUDGET RESPONSE:", res.data)  // ← add this line
+
       setBudgets(res.data)
     } catch (err) {
       console.error("Error fetching budgets", err)
