@@ -9,6 +9,7 @@ import ExpenseOverview from '../../components/Expense/ExpenseOverview'
 import Modal from '../../components/Modal'
 import AddExpenseForm from '../../components/Expense/AddExpenseForm'
 import ExpenseList from '../../components/Expense/ExpenseList'
+import SetBudget from '../../components/Expense/SetBudget'; // Add this
 import DeleteAlert from '../../components/DeleteAlert'
 import CategoryPieChart from '../../components/Charts/CategoryPieChart'
 import BudgetAlertBanner from '../../components/BudgetAlertBanner'
@@ -21,6 +22,7 @@ const Expense = () => {
 const [loading, setLoading] = useState(false)
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ show: false, data: null })
   const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
+const [openSetBudgetModal, setOpenSetBudgetModal] = useState(false) 
 const [budgets, setBudgets] = useState([])
 const [pieData, setPieData] = useState([])
 const [alerts, setAlerts] = useState([])
@@ -114,7 +116,12 @@ const [alerts, setAlerts] = useState([])
           <div className="flex flex-col gap-6">
 
             <BudgetAlertBanner alerts={alerts} />
-
+<button
+  onClick={() => setOpenSetBudgetModal(true)}
+  className="mb-4 btn btn-primary bg-gray-900 text-white px-4 py-2 rounded-md"
+>
+  + Set New Budget
+</button>
             <ExpenseOverview
               transactions={expenseData}
               onExpenseIncome={() => setOpenAddExpenseModal(true)}
@@ -137,7 +144,16 @@ const [alerts, setAlerts] = useState([])
         >
           <AddExpenseForm onAddExpense={handleAddExpense} />
         </Modal>
-
+<Modal
+  isOpen={openSetBudgetModal}
+  onClose={() => setOpenSetBudgetModal(false)}
+  title="Set Budget Limit"
+>
+  <SetBudget onSuccess={() => {
+    setOpenSetBudgetModal(false);
+    fetchBudgets();
+  }} />
+</Modal>
         <Modal
           isOpen={openDeleteAlert.show}
           onClose={() => setOpenDeleteAlert({ show: false, data: null })}
