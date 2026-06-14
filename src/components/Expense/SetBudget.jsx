@@ -1,6 +1,6 @@
 import axiosInstance from "../../utils/axiosInstance";
 import { useState } from "react";
-
+import { API_PATH } from "../../utils/apiPaths";
 export default function SetBudget({ onSuccess }) {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -30,9 +30,11 @@ export default function SetBudget({ onSuccess }) {
     setMessage("");
 
     try {
-      await axiosInstance.post("/budget/set", {
+      await axiosInstance.post(API_PATH.BUDGET.SET_BUDGET, {
   category: trimmedCategory,
   amount: parsedAmount,
+  month: new Date().getMonth() + 1,
+  year: new Date().getFullYear(),
 });
       setStatus("success");
       setMessage(`Budget set: ₹${parsedAmount.toLocaleString("en-IN")} for "${trimmedCategory}"`);

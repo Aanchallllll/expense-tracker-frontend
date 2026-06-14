@@ -82,8 +82,11 @@ export const analyzeBudgets = (expenses, budgets) => {
 
     // Group and sum by category
     const categoryTotals = monthlyExpenses.reduce((acc, e) => {
-        acc[e.category] = (acc[e.category] || 0) + Number(e.amount)
-        return acc
+        // acc[e.category] = (acc[e.category] || 0) + Number(e.amount)
+        
+const cat = e.category.toLowerCase().trim()
+acc[cat] = (acc[cat] || 0) + Number(e.amount)
+return acc
     }, {})
 
     // Pie chart data
@@ -95,8 +98,9 @@ export const analyzeBudgets = (expenses, budgets) => {
     // Budget alerts
     const alerts = []
     budgets.forEach((budget) => {
-        const spent = categoryTotals[budget.category] || 0
-        const percentage = (spent / budget.amount) * 100
+        // const spent = categoryTotals[budget.category] || 0
+        const spent = categoryTotals[budget.category.toLowerCase().trim()] || 0
+ const percentage = (spent / budget.amount) * 100
         if (percentage >= 80) {
             alerts.push(
                 `Warning: You have used ${Math.round(percentage)}% of your ${budget.category} budget! (₹${spent} of ₹${budget.amount})`
